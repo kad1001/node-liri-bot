@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/kad1001/node-liri-bot/issues"
   },
-  "homepage": "https://github.com/kad1001/node-liri-bot#readme"
+  "homepage": "https://github.com/kad1001/node-liri-bot#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "node-spotify-api": "^1.0.7"
+  }
 }
