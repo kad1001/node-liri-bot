@@ -1,0 +1,20 @@
+{
+  "name": "node-liri-bot",
+  "version": "1.0.0",
+  "description": "Language interpretation and recognition interface app in node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kad1001/node-liri-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kad1001/node-liri-bot/issues"
+  },
+  "homepage": "https://github.com/kad1001/node-liri-bot#readme"
+}
