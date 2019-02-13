@@ -1,2 +1,2 @@
 # node-liri-bot
-Language interpretation and recognition interface app in node.js
+liri is the new siri
