@@ -8,6 +8,8 @@ var axios = require('axios');
 var moment = require('moment');
 
 var fs = require('fs');
+
+
 // access keys info
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
@@ -16,23 +18,57 @@ var movieKey = keys.movies;
 
 var thatid = keys.bands;
 
+
 // take in command line arguments
 var inputStr = process.argv;
 var request = inputStr[2];
 var getThis = inputStr[3];
 
+// response array to log into log
+// var responseArr = [];
 
-// global functions 
+
+// returns [object, object] right now
+// log dat shit right up
+// function logDat(response) {
+//     // log command
+//     fs.appendFile("log.txt", ", " + getThis, function(err) {
+//         if (err) {
+//             return console.log(err);
+//         }
+//     });
+
+//     // log data too
+//     fs.appendFile("log.txt", ", " + response, function(err) {
+//         console.log(response);
+//         if(err) {
+//             return console.log(err);
+//         }
+//     });
+// }
+
+
+
+// SPOTIFY
 function getSpotify() {
     spotify
     .search ({ type: 'track', query: getThis })
+    
     .then(function(response) {
+
         // returns first item in response object
-        var first = response.tracks.items[0];
-        var artist = first.album.artists[0].name;
-        var spotifyName = first.name;
-        var preview = first.preview_url;
-        var album = first.album.name;
+        var f = response.tracks.items[0];
+        var artist = f.album.artists[0].name;
+        var spotifyName = f.name;
+        var preview = f.preview_url;
+        var album = f.album.name;
+
+        // push these into an array
+        // responseArr.push(f, artist, spotifyName, preview, album);
+        // console.log(responseArr);
+
+        // log the api response
+        // logDat(responseArr);
         console.log("Artist: " + artist);
         console.log("Track name: " + spotifyName);
         console.log("Preview URL: " + preview);
@@ -41,7 +77,10 @@ function getSpotify() {
     .catch(function(err) {
         console.log(err);
     });
-}
+};
+
+
+// OMDB
 
 function getOMDB() {
   // baseURL + params
@@ -53,6 +92,7 @@ function getOMDB() {
             }
             })
             .then(function(response) {
+                // logDat();
                 var r = response.data;
                 var title = r.Title;
                 var year = r.Year;
@@ -74,9 +114,11 @@ function getOMDB() {
             })
             .catch(function (error) {
                 console.log(error);
-            })
-}
+            })        
+};
 
+
+// BANDSINTOWN
 function getShow() {
 
     axios.get("https://rest.bandsintown.com/artists/" + getThis + "/events", {
@@ -86,11 +128,8 @@ function getShow() {
     })
     
     .then(function(response) {
-        // console.log(response.data);
-        // Name of the venue
+        // logDat();
         console.log("Venue info: ", response.data[0].venue);
-        // Venue location
-        // Date of the Event (use moment to format this as "MM/DD/YYYY")
         var datetime =  response.data[0].datetime;
         var newDate = moment(datetime).format("MM/DD/YYYY");
         console.log("Concert date: ", newDate);
@@ -99,32 +138,43 @@ function getShow() {
     .catch(function (error) {
         console.log(error);
     })
-}
+};
 
 
 // determines request
  switch (request) {
+    //  SPOTIFY
      case ("spotify-this-song"):
         getSpotify();
-        break;
+    break;
 
-        // DON'T USE '< >' FOR TITLE
+    // OMDB
     case("movie-this"):
       getOMDB();
     break;
 
-    // bandsintown api
+    // BANDSINTOWN
     case("concert-this"):
         getShow();
     break;
 
+
+    // WILDCARD
     case("do-what-it-says"):
     // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
         fs.readFile('random.txt', 'utf8', function(error, data){
+
             if (error) {
                 return console.log(error);
             } else {
+
+                // logDat();
+
+                // split it up
                 var newData = data.split(",");
+                console.log(newData);
+
+                // determine parameters
                 request = newData[0];
                 getThis = newData[1];
 
@@ -139,8 +189,5 @@ function getShow() {
                 }
             }
         })
-        // It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
-        // Edit the text in random.txt to test out the feature for movie-this and concert-this.
-
         break;
- }
+ };

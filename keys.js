@@ -1,10 +1,3 @@
-// console.log('keys.js is loaded');
-console.log('COMMANDS:');
-console.log('concert-this');
-console.log('movie-this');
-console.log('do-what-it-says');
-console.log('spotify-this-song');
-
 
 // to pass into liri.js  -----
 // access keys in .env
