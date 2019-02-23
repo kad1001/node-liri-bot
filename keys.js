@@ -1,12 +1,13 @@
+// access keys in .env using process.env
 
-// to pass into liri.js  -----
-// access keys in .env
+// SPOTIFY key
 exports.spotify = {
-    id: process.env.SPOTIFY_ID,
-    secret: process.env.SPOTIFY_SECRET
-  };
-  
-  // OMDb key
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+};
+
+// OMDb key
 exports.movies = process.env.OMDB;
 
+// BANDS-IN-TOWN key
 exports.bands = process.env.band_id;

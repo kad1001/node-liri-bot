@@ -1,5 +1,7 @@
 # node-liri-bot
 
+<a href="./node-liri-video.mov">Demo</a>
+
 LIRI is a command line node app that takes in parameters and returns data.
 
 Technologies used:
