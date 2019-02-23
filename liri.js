@@ -18,7 +18,6 @@ var movieKey = keys.movies;
 
 var thatid = keys.bands;
 
-
 // take in command line arguments
 var inputStr = process.argv;
 var request = inputStr[2];
@@ -32,7 +31,6 @@ function getSpotify() {
             type: 'track',
             query: getThis
         })
-
         .then(function (response) {
 
             // returns first item in response object
@@ -59,7 +57,6 @@ function getSpotify() {
 
 // OMDB
 function getOMDB() {
-
     // get request 
     axios.get('http://www.omdbapi.com/', {
             params: {
@@ -68,7 +65,7 @@ function getOMDB() {
             }
         })
         .then(function (response) {
- 
+
             var r = response.data;
             var title = r.Title;
             var year = r.Year;
@@ -102,8 +99,7 @@ function getShow() {
                 app_id: thatid
             }
         })
-
-        .then(function(response) {
+        .then(function (response) {
 
             console.log(response.data[0]);
 
@@ -118,60 +114,55 @@ function getShow() {
         })
 };
 
+// Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
+
+function getRandom() {
+    fs.readFile('random.txt', 'utf8', function (error, data) {
+        if (error) {
+            return console.log(error);
+        } else {
+    
+            // split up the data in random.txt
+            var newData = data.split(",");
+            console.log(newData);
+    
+            // determine parameters
+            // what to do
+            request = newData[0];
+            // what to look up
+            getThis = newData[1];
+    
+        }
+    });
+    };
+
 
 // determines request
-switch (request) {
-    //  SPOTIFY
-    case ("spotify-this-song"):
-        getSpotify();
-        break;
+function mainResponse() {
 
-        // OMDB
-    case ("movie-this"):
-        getOMDB();
-        break;
+    switch (request) {
+        //  SPOTIFY
+        case ("spotify-this-song"):
+            getSpotify();
+            break;
 
-        // BANDSINTOWN
-    case ("concert-this"):
-        getShow();
-        break;
+            // OMDB
+        case ("movie-this"):
+            getOMDB();
+            break;
 
+            // BANDSINTOWN
+        case ("concert-this"):
+            getShow();
+            break;
 
-        // WILDCARD
-    case ("do-what-it-says"):
+            // WILDCARD
+        case ("do-what-it-says"):
+            getRandom();
+            break;
 
-        // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-        fs.readFile('random.txt', 'utf8', function (error, data) {
-
-            if (error) {
-                return console.log(error);
-            } else {
-
-                // split up the data in random.txt
-                var newData = data.split(",");
-                console.log(newData);
-
-                // determine parameters
-                // what to do
-                request = newData[0];
-                // what to look up
-                getThis = newData[1];
-
-                if (request === 'spotify-this-song') {
-                    getSpotify();
-
-                } 
-                else if (request === 'concert-this') {
-                    getShow();
-
-                } 
-                else if (request === 'movie-this') {
-                    getOMDB();
-                } 
-                else {
-                    console.log("Try again!");
-                }
-            }
-        })
-        break;
+    }
 };
+
+mainResponse();
+
